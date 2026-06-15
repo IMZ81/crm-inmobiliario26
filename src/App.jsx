@@ -28,7 +28,7 @@ function parseCSV(text) {
       pvp_actual:     obj["PVP ACTUAL (€)"] || "",
       m2_const:       obj["M2 CONSTRUIDOS"] || "",
       m2_util:        obj["M2 ÚTILES"] || "",
-      date:           obj["FECHA CAPTACIÓN"] || "",
+      date:           obj["FECHA PUBLICACIÓN"] || "",
       fecha_pub:      obj["FECHA ÚLT. PUB."] || "",
       dom:            obj["DOM"] || "",
       link_anuncio:   obj["LINK ANUNCIO"] || "",
@@ -43,7 +43,7 @@ function parseCSV(text) {
 function stageKey(label) {
   const map = {
     "en observación":"observacion","observación":"observacion",
-    "captado":"captado",
+    "captado":"captado","contactado":"captado",
     "1ª visita":"primera_visita","primera visita":"primera_visita",
     "2ª visita em":"segunda_visita","segunda visita em":"segunda_visita",
     "mandato firmado":"mandato",
@@ -57,7 +57,7 @@ function stageKey(label) {
 
 const STAGES = [
   { id:"observacion",      label:"En Observación",     color:"#8b5cf6" },
-  { id:"captado",          label:"Captado",             color:"#6366f1" },
+  { id:"captado",          label:"Contactado",           color:"#6366f1" },
   { id:"primera_visita",   label:"1ª Visita",           color:"#3b82f6" },
   { id:"segunda_visita",   label:"2ª Visita EM",        color:"#06b6d4" },
   { id:"mandato",          label:"Mandato Firmado",     color:"#10b981" },
