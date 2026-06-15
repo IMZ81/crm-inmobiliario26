@@ -160,7 +160,7 @@ export default function App() {
   }),[leads]);
 
   const RATIOS = [
-    { label:"Captado → Mandato",         from:"captado",          to:"mandato",          color:"#10b981" },
+    { label:"Contactado → Mandato",       from:"captado",          to:"mandato",          color:"#10b981" },
     { label:"Mandato → Visitas Inmueble", from:"mandato",          to:"visitas_inmueble", color:"#f59e0b" },
     { label:"Visitas → Oferta",           from:"visitas_inmueble", to:"oferta",           color:"#f97316" },
     { label:"Oferta → Vendido",           from:"oferta",           to:"vendido",          color:"#22c55e" },
