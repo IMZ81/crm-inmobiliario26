@@ -19,14 +19,14 @@ function parseCSV(text) {
     headers.forEach((h, j) => { obj[h] = cols[j] ?? ""; });
     return {
       id:             obj["ID"] || String(i + 1),
-      name:           obj["NOMBRE CONTACTO"] || "",
+      name:           obj["NOMBRE"] || "",
       phone:          obj["TELÉFONO"] || "",
-      zone:           obj["ZONA / CALLE"] || "",
+      zone:           obj["ZONA"] || "",
       channel:        obj["CANAL"] || "Llamada",
       agent:          obj["AGENTE"] || "",
       stage:          stageKey(obj["ETAPA"] || ""),
-      pvp_salida:     obj["PVP SALIDA (€)"] || "",
-      pvp_actual:     obj["PVP ACTUAL (€)"] || "",
+      pvp_salida:     obj["PVP SALIDA"] || "",
+      pvp_actual:     obj["PVP ACTUAL"] || "",
       m2_const:       obj["M2 CONSTRUIDOS"] || "",
       m2_util:        obj["M2 ÚTILES"] || "",
       date:           obj["FECHA PUBLICACIÓN"] || "",
