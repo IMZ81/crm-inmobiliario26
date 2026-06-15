@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 
-const SHEET_URL = import.meta.env.VITE_SHEET_URL;
+const SHEET_URL   = import.meta.env.VITE_SHEET_URL;
+const WEBHOOK_URL = import.meta.env.VITE_WEBHOOK_URL;
 
 function parseCSV(text) {
   const lines = text.trim().split("\n");
@@ -127,13 +128,45 @@ export default function App() {
     filterCh==="Todos" ? leads : leads.filter(l=>l.channel===filterCh),
   [leads, filterCh]);
 
-  function saveForm() {
+  async function saveForm() {
     if (!form.name.trim()) return;
     if (editId!==null) {
       setLeads(ls=>ls.map(l=>l.id===editId?{...l,...form}:l));
       setEditId(null);
     } else {
-      setLeads(ls=>[...ls,{...form,id:Date.now()}]);
+      const newLead = {...form, id: Date.now()};
+      setLeads(ls=>[...ls, newLead]);
+      // Enviar al Sheet vía Make webhook
+      if (WEBHOOK_URL) {
+        try {
+          await fetch(WEBHOOK_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              "ID":                 "",
+              "NOMBRE":             newLead.name,
+              "TELÉFONO":           newLead.phone,
+              "ZONA":               newLead.zone,
+              "CANAL":              newLead.channel,
+              "AGENTE":             newLead.agent,
+              "ETAPA":              STAGES.find(s=>s.id===newLead.stage)?.label || "",
+              "PVP SALIDA":         newLead.pvp_salida,
+              "PVP ACTUAL":         newLead.pvp_actual,
+              "BAJADA":             "",
+              "FECHA PUBLICACIÓN":  newLead.date,
+              "FECHA ÚLT. PUB.":   newLead.fecha_pub,
+              "DOM":                newLead.dom,
+              "LINK ANUNCIO":       newLead.link_anuncio,
+              "LINK DASHBOARD":     newLead.link_dashboard,
+              "VÍDEO":              newLead.video,
+              "PLANO":              newLead.plano,
+              "M2 CONSTRUIDOS":     newLead.m2_const,
+              "M2 ÚTILES":          newLead.m2_util,
+              "NOTAS":              newLead.notes,
+            })
+          });
+        } catch(e) { console.error("Error enviando a Make:", e); }
+      }
     }
     setForm(EMPTY); setView("kanban");
   }
