@@ -71,9 +71,9 @@ const STAGE_IDX = Object.fromEntries(STAGES.map((s, i) => [s.id, i]));
 const NEXT = {};
 STAGES.forEach((s, i) => { NEXT[s.id] = STAGES[i + 1]?.id ?? null; });
 
-const CHANNELS = ["WhatsApp", "Llamada", "Email"];
-const chColor  = { WhatsApp:"#25d366", Llamada:"#3b82f6", Email:"#f59e0b" };
-const chIcon   = { WhatsApp:"💬", Llamada:"📞", Email:"✉️" };
+const CHANNELS = ["WhatsApp", "Llamada", "Email", "Propertips", "WOM", "Buzoneo/Puerta fría"];
+const chColor  = { WhatsApp:"#25d366", Llamada:"#3b82f6", Email:"#f59e0b", Propertips:"#e11d48", WOM:"#8b5cf6", "Buzoneo/Puerta fría":"#0891b2" };
+const chIcon   = { WhatsApp:"💬", Llamada:"📞", Email:"✉️", Propertips:"🏠", WOM:"🗣", "Buzoneo/Puerta fría":"📬" };
 
 const EMPTY = { name:"", phone:"", zone:"", channel:"WhatsApp", stage:"observacion", agent:"", date:new Date().toISOString().slice(0,10), pvp_salida:"", pvp_actual:"", m2_const:"", m2_util:"", dom:"", fecha_pub:"", link_anuncio:"", link_dashboard:"", video:"N", plano:"N", notes:"" };
 
