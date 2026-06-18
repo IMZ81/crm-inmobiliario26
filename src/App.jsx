@@ -43,14 +43,15 @@ function parseCSV(text) {
 
 function stageKey(label) {
   const map = {
-    "en observación":"observacion","observación":"observacion",
+    "en seguimiento":"observacion","en observación":"observacion","observación":"observacion",
     "captado":"captado","contactado":"captado",
-    "1ª visita":"primera_visita","primera visita":"primera_visita",
-    "2ª visita em":"segunda_visita","segunda visita em":"segunda_visita",
+    "r1":"primera_visita","1ª visita":"primera_visita","primera visita":"primera_visita",
+    "r2":"segunda_visita","2ª visita em":"segunda_visita","segunda visita em":"segunda_visita",
     "mandato firmado":"mandato",
-    "anuncio publicado":"anuncio",
+    "r3 fotografías":"r3_fotos","r3 fotos":"r3_fotos","r3 fotografias":"r3_fotos",
+    "publicado":"anuncio","anuncio publicado":"anuncio",
     "nº visitas inmueble":"visitas_inmueble","visitas inmueble":"visitas_inmueble",
-    "oferta recibida":"oferta",
+    "en oferta":"oferta","oferta recibida":"oferta",
     "vendido":"vendido",
   };
   return map[label.toLowerCase().trim()] || "observacion";
