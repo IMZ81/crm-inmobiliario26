@@ -4,19 +4,32 @@ const SHEET_URL   = import.meta.env.VITE_SHEET_URL;
 const WEBHOOK_URL = import.meta.env.VITE_WEBHOOK_URL;
 
 function parseCSV(text) {
-  const lines = text.trim().split("\n");
-  const headers = lines[0].split(",").map(h => h.trim().replace(/"/g, ""));
-  return lines.slice(1).map((line, i) => {
-    const cols = [];
-    let cur = "", inQ = false;
-    for (const ch of line) {
-      if (ch === '"') { inQ = !inQ; }
-      else if (ch === "," && !inQ) { cols.push(cur.trim()); cur = ""; }
-      else cur += ch;
+  // Split respecting quoted fields that may contain newlines
+  const rows = [];
+  let cur = "", inQ = false, row = [];
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i];
+    if (ch === '"') {
+      if (inQ && text[i+1] === '"') { cur += '"'; i++; }
+      else inQ = !inQ;
+    } else if (ch === "," && !inQ) {
+      row.push(cur.trim()); cur = "";
+    } else if ((ch === "\n" || ch === "\r") && !inQ) {
+      if (ch === "\r" && text[i+1] === "\n") i++;
+      row.push(cur.trim()); cur = "";
+      if (row.some(c => c !== "")) rows.push(row);
+      row = [];
+    } else {
+      cur += ch;
     }
-    cols.push(cur.trim());
-    const obj = { id: i + 1 };
-    headers.forEach((h, j) => { obj[h] = cols[j] ?? ""; });
+  }
+  if (cur || row.length) { row.push(cur.trim()); if (row.some(c=>c!=="")) rows.push(row); }
+
+  if (rows.length < 2) return [];
+  const headers = rows[0].map(h => h.replace(/"/g, "").trim());
+  return rows.slice(1).map((cols, i) => {
+    const obj = {};
+    headers.forEach((h, j) => { obj[h] = (cols[j] ?? "").replace(/^"|"$/g, ""); });
     return {
       id:             obj["ID"] || String(i + 1),
       name:           obj["NOMBRE"] || "",
